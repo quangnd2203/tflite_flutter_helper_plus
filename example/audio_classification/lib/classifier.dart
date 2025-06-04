@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:audio_classification/main.dart';
 import 'package:flutter/services.dart';
 import 'package:collection/collection.dart';
-import 'package:tflite_flutter_plus/tflite_flutter_plus.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper_plus/tflite_flutter_helper_plus.dart';
 
 class Classifier {
@@ -15,7 +15,7 @@ class Classifier {
 
   late TensorBuffer _outputBuffer;
 
-  TfLiteType _outputType = TfLiteType.uint8;
+  TensorType _outputType = TensorType.uint8;
 
   final String _modelFileName = 'yamnet.tflite';
   final String _labelFileName = 'assets/yamnet_class_map.csv';

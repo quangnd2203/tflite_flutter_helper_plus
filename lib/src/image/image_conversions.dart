@@ -1,5 +1,5 @@
 import 'package:image/image.dart';
-import 'package:tflite_flutter_plus/tflite_flutter_plus.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper_plus/src/image/color_space_type.dart';
 import 'package:tflite_flutter_helper_plus/src/tensorbuffer/tensorbuffer.dart';
 
@@ -14,8 +14,8 @@ class ImageConversions {
 
     int h = rgb.getHeight(shape);
     int w = rgb.getWidth(shape);
-    // Image image = Image(width:w, height:h);
-    Image image = Image(w, h);
+    Image image = Image(width:w, height:h);
+    // Image image = Image(w, h);
 
     List<int> rgbValues = buffer.getIntList();
     assert(rgbValues.length == w * h * 3);
@@ -38,18 +38,18 @@ class ImageConversions {
 
   static Image convertGrayscaleTensorBufferToImage(TensorBuffer buffer) {
     // Convert buffer into Uint8 as needed.
-    TensorBuffer uint8Buffer = buffer.getDataType() == TfLiteType.uint8
+    TensorBuffer uint8Buffer = buffer.getDataType() == TensorType.uint8
         ? buffer
-        : TensorBuffer.createFrom(buffer, TfLiteType.uint8);
+        : TensorBuffer.createFrom(buffer, TensorType.uint8);
 
     final shape = uint8Buffer.getShape();
     const grayscale = ColorSpaceType.grayscale;
     grayscale.assertShape(shape);
 
-    // final image = Image.fromBytes(width: grayscale.getWidth(shape), height: grayscale.getHeight(shape),
-    //     bytes: uint8Buffer.getBuffer(), format: Format.luminance);
-final image = Image.fromBytes(grayscale.getWidth(shape), grayscale.getHeight(shape),
-        uint8Buffer.getBuffer().asUint8List(), format: Format.luminance);
+    final image = Image.fromBytes(width: grayscale.getWidth(shape), height: grayscale.getHeight(shape),
+        bytes: uint8Buffer.getBuffer(), format: Format.uint8);
+// final image = Image.fromBytes(grayscale.getWidth(shape), grayscale.getHeight(shape),
+//         uint8Buffer.getBuffer().asUint8List(), format: Format.uint8);
 
     return image;
   }
@@ -57,11 +57,11 @@ final image = Image.fromBytes(grayscale.getWidth(shape), grayscale.getHeight(sha
   static void convertImageToTensorBuffer(Image image, TensorBuffer buffer) {
     int w = image.width;
     int h = image.height;
-    List<int> intValues = image.data;
+    List<int> intValues = image.getBytes().toList();
     int flatSize = w * h * 3;
     List<int> shape = [h, w, 3];
     switch (buffer.getDataType()) {
-      case TfLiteType.uint8:
+      case TensorType.uint8:
         List<int> byteArr = List.filled(flatSize, 0);
         for (int i = 0, j = 0; i < intValues.length; i++) {
           byteArr[j++] = ((intValues[i]) & 0xFF);
@@ -70,7 +70,7 @@ final image = Image.fromBytes(grayscale.getWidth(shape), grayscale.getHeight(sha
         }
         buffer.loadList(byteArr, shape: shape);
         break;
-      case TfLiteType.float32:
+      case TensorType.float32:
         List<double> floatArr = List.filled(flatSize, 0.0);
         for (int i = 0, j = 0; i < intValues.length; i++) {
           floatArr[j++] = ((intValues[i]) & 0xFF).toDouble();

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:tflite_flutter_plus/tflite_flutter_plus.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper_plus/src/common/support_preconditions.dart';
 import 'package:tflite_flutter_helper_plus/src/tensorbuffer/tensorbuffer.dart';
 
@@ -14,8 +14,8 @@ class TensorBufferUint8 extends TensorBuffer {
   TensorBufferUint8.dynamic() : super.dynamic();
 
   @override
-  TfLiteType getDataType() {
-    return TfLiteType.uint8;
+  TensorType getDataType() {
+    return TensorType.uint8;
   }
 
   @override

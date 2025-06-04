@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:image/image.dart';
 import 'package:quiver/check.dart';
-import 'package:tflite_flutter_plus/tflite_flutter_plus.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper_plus/src/image/base_image_container.dart';
 import 'package:tflite_flutter_helper_plus/src/image/color_space_type.dart';
 import 'package:tflite_flutter_helper_plus/src/image/image_container.dart';
@@ -29,12 +29,12 @@ import 'package:tflite_flutter_helper_plus/src/tensorbuffer/tensorbuffer.dart';
 /// See [ImageProcessor] which is often used for transforming a [TensorImage].
 class TensorImage {
   BaseImageContainer? _container;
-  final TfLiteType _tfLiteType;
+  final TensorType _tfLiteType;
 
   /// Initialize a [TensorImage] object.
   ///
   /// Note: For Image with float value pixels use [TensorImage(TfLiteType.float)]
-  TensorImage([TfLiteType dataType = TfLiteType.uint8])
+  TensorImage([TensorType dataType = TensorType.uint8])
       : _tfLiteType = dataType;
 
   /// Initialize [TensorImage] from [Image]
@@ -134,19 +134,19 @@ class TensorImage {
   /// Gets the current data type.
   ///
   /// Currently only UINT8 and FLOAT32 are possible.
-  TfLiteType get dataType {
+  TensorType get dataType {
     return _tfLiteType;
   }
 
   /// Gets the current data type.
   ///
   /// Currently only UINT8 and FLOAT32 are possible.
-  TfLiteType getDataType() => dataType;
+  TensorType getDataType() => dataType;
 
   /// Gets the current data type.
   ///
   /// Currently only UINT8 and FLOAT32 are possible.
-  TfLiteType get tfLiteType {
+  TensorType get tfLiteType {
     return _tfLiteType;
   }
 

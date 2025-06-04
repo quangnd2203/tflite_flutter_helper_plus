@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:image/image.dart';
 import 'package:quiver/check.dart';
-import 'package:tflite_flutter_plus/tflite_flutter_plus.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper_plus/src/image/color_space_type.dart';
 import 'package:tflite_flutter_helper_plus/src/image/base_image_container.dart';
 import 'package:tflite_flutter_helper_plus/src/tensorbuffer/tensorbuffer.dart';
@@ -58,7 +58,7 @@ class TensorBufferContainer implements BaseImageContainer {
 
   @override
   Image get image {
-    if (_buffer.getDataType() != TfLiteType.uint8) {
+    if (_buffer.getDataType() != TensorType.uint8) {
       // Print warning instead of throwing an exception. When using float models, users may want to
       // convert the resulting float image into Bitmap. That's fine to do so, as long as they are
       // aware of the potential accuracy lost when casting to uint8.
@@ -72,7 +72,7 @@ class TensorBufferContainer implements BaseImageContainer {
   }
 
   @override
-  TensorBuffer getTensorBuffer(TfLiteType dataType) {
+  TensorBuffer getTensorBuffer(TensorType dataType) {
     // If the data type of buffer is desired, return it directly. Not making a defensive copy for
     // performance considerations. During image processing, users may need to set and get the
     // TensorBuffer many times.
